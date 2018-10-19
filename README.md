@@ -30,7 +30,7 @@ npm install --save npm-pb-items-table
 ```jsx
 import React, { Component } from 'react'
 
-import ItemsTaable from 'npm-pb-items-table'
+import ItemsTable from 'npm-pb-items-table'
 const Data = {[
                 { name: 'Jack', age: 28, address: 'some where', id:1 },
                 { name: 'Rose', age: 36, address: 'some where', id:2 },
