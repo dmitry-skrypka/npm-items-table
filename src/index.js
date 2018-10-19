@@ -1,24 +1,185 @@
-
-
-
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types'
-import DrawButton from 'src/drawButton';
-import DrawHeaders from 'src/drawHeaders';
-import DrawRow from 'src/drawRow';
-import { generateId, getItemTemplate } from '/src/helpers';
-// import {  DefaultData } from '/src/config';
-
 
 import styled from 'styled-components';
 
+
+export const DefaultHeaders = ['ID',  'category', 'price', 'qty', 'Name'];
+export const Headers = ['ID`s',  'category', 'price', 'qty', 'Name'];
+export const DefaultData = [{
+  id: 'no data'
+}];
+export const Data = [
+  {
+    id: 1,
+    category: 'Sporting Goods',
+    price: '49.99',
+    qty: '12',
+    name: 'football',
+  },
+  {
+    id: 2,
+    category: 'Sporting Goods',
+    price: '9.99',
+    qty: '15',
+    name: 'baseball',
+  },
+  {
+    id: 3,
+    category: 'Sporting Goods',
+    price: '29.99',
+    qty: '14',
+    name: 'basketball'
+
+  },
+  {
+    id: 4,
+    category: 'Electronics',
+    price: '99.99',
+    qty: '34',
+    name: 'iPod Touch',
+  },
+  {
+    id: 5,
+    category: 'Electronics',
+    price: '399.99',
+    qty: '12',
+    name: 'iPhone 5',
+  },
+  {
+    id: 6,
+    category: 'Electronics',
+    price: '199.99',
+    qty: '23',
+    name: 'nexus 7',
+  },
+];
+
+
+export function getItemTemplate(dataArray) {
+  let itemTemplate = {};
+  if (dataArray.length > 0 && Array.isArray(dataArray)) {
+    const originItem = dataArray[0];
+
+    for (let key in originItem) {
+      itemTemplate = {
+        ...itemTemplate,
+        [key]: '',
+      };
+    }
+  }
+  return itemTemplate;
+}
+
+export function generateId() {
+  return Math.floor(Math.random() * 999999);
+}
+
+const Header = styled.th`
+  text-transform: uppercase;
+`;
+
+export class DrawRow extends React.Component {
+  handleRowDelEvent = () => {
+    this.props.handleRowDelEvent(this.props.row);
+  };
+
+  handleDataChange = event => {
+    this.props.handleCellDataChangeEvent(event);
+  };
+  render() {
+    const row = this.props.row;
+    const BgColor = this.props.BgColor;
+
+    return (
+      <Fragment>
+        <tr>
+          {Object.getOwnPropertyNames(row).map((key, index) => (
+            <DrawCell
+              id={row.id}
+              name={key}
+              value={row[key]}
+              key={index}
+              handleCellDataChangeEvent={this.handleDataChange}
+              BgColor={BgColor}
+            />
+          ))}
+          <td>
+            <DrawButton onClick={this.handleRowDelEvent} value="X" />
+          </td>
+        </tr>
+      </Fragment>
+    );
+  }
+}
+const Input = styled.input`
+border-style: solid;
+    border-width: 0 0 1px 0;
+    border-color: white;
+	background: ${props => (props.BgColor ? props.BgColor : 'white')};
+	width: ${props => props.idWidth}
+	outline: none;
+	text-align: ${props => props.idAlign};
+	
+`;
+
+export class DrawInput extends React.Component {
+  handleInputEvent = event => {
+    this.props.handleCellDataChangeEvent(event);
+  };
+  render() {
+    const { id, name, type, value, BgColor } = this.props;
+
+    return (
+      <Input
+        type={type}
+        id={id}
+        name={name}
+        value={value}
+        onChange={this.handleInputEvent}
+        // readOnly={name === 'id'? "readonly" : null }
+        disabled={name === 'id' ? 'readonly' : null}
+        BgColor={name === 'id' ? '#AFCDE7' : BgColor}
+        idWidth={name === 'id' ? '60px' : 'unset'}
+        idAlign={name === 'id' ? 'center' : 'left'}
+      />
+    );
+  }
+}
+
+export class DrawHeaders extends React.Component {
+  render() {
+    const Headers = this.props.headers ? this.props.headers : DefaultHeaders;
+    const headersList = Headers.map((name, index) => (
+      <Header key={index}>{name}</Header>
+    ));
+    return headersList;
+  }
+}
+
+export class DrawCell extends React.Component {
+  render() {
+    const { handleCellDataChangeEvent, id, name, value, BgColor } = this.props;
+    return (
+      <td>
+        <DrawInput
+          type={'text'}
+          id={id}
+          name={name}
+          value={value}
+          handleCellDataChangeEvent={handleCellDataChangeEvent}
+          BgColor={BgColor}
+        />
+      </td>
+    );
+  }
+}
+
 const TableWrapper = styled.div`
-    background: ${props => (props.BgColor ? 'white' : 'white')};
-   
-    text-align: -webkit-center;
-    padding: 20px;
-    
-    `;
+  background: ${props => (props.BgColor ? 'white' : 'white')};
+
+  text-align: -webkit-center;
+  padding: 20px;
+`;
 
 const TableStyled = styled.table`
   font-family: 'Lucida Sans Unicode', 'Lucida Grande', Sans-Serif;
@@ -27,7 +188,6 @@ const TableStyled = styled.table`
   border-spacing: 5px;
   background: ${props => (props.BgColor ? props.BgColor : 'white')};
   color: #656665;
-  
 `;
 const Warning = styled.div`
   color: red;
@@ -36,9 +196,38 @@ const Warning = styled.div`
 `;
 
 const TableHead = styled.thead`
-  
   text-align: center;
 `;
+export class DrawButton extends React.Component {
+  render() {
+    const SaveButton = styled.button`
+      display: inline-block;
+      font-size: 100%;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: #053852 -1px 1px, #053852 1px 1px, #053852 1px -1px,
+        #053852 -1px -1px;
+      text-decoration: none;
+      user-select: none;
+      padding: 5px;
+
+      background: #053852
+        repeating-linear-gradient(
+          135deg,
+          #053852,
+          #053852 10px,
+          #1679ad 10px,
+          #1679ad 20px,
+          #053852 20px
+        );
+      cursor: pointer;
+    `;
+
+    const { onClick, value } = this.props;
+
+    return <SaveButton onClick={onClick}>{value}</SaveButton>;
+  }
+}
 
 class ItemsTable extends Component {
   constructor(props) {
@@ -108,7 +297,7 @@ class ItemsTable extends Component {
     }
   };
   render() {
-    const tableData = this.state.data ? this.state.data : DefaultData;
+    const tableData = this.state.data ? this.state.data : Data;
     const touched = this.state.touched;
     const BgColor = this.props.BgColor;
 
@@ -123,17 +312,17 @@ class ItemsTable extends Component {
             </TableHead>
 
             <tbody>
-            {tableData.map((item, index) => (
-              <DrawRow
-                row={item}
-                key={index}
-                handleRowDelEvent={this.handleRowDelEvent.bind(this)}
-                handleCellDataChangeEvent={this.handleCellDataChangeEvent.bind(
-                  this,
-                )}
-                BgColor={BgColor}
-              />
-            ))}
+              {tableData.map((item, index) => (
+                <DrawRow
+                  row={item}
+                  key={index}
+                  handleRowDelEvent={this.handleRowDelEvent.bind(this)}
+                  handleCellDataChangeEvent={this.handleCellDataChangeEvent.bind(
+                    this,
+                  )}
+                  BgColor={BgColor}
+                />
+              ))}
             </tbody>
           </TableStyled>
 
@@ -157,4 +346,3 @@ class ItemsTable extends Component {
 }
 
 export default ItemsTable;
-

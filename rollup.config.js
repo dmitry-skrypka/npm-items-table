@@ -9,10 +9,6 @@ import pkg from './package.json'
 
 export default {
   input: 'src/index.js',
-  entry: 'src/index.js',
-  dest: 'bundle.js',
-  format: 'cjs',
-  external: [ 'config', 'helpers', 'drawRow', 'drawButton', 'drawHeaders' ], // <-- suppresses the warning
   output: [
     {
       file: pkg.main,
