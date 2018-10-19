@@ -1,5 +1,5 @@
 export const DefaultHeaders = ['ID',  'category', 'price', 'qty', 'Name'];
-export const Headers = ['ID`s',  'category', 'price', 'qty', 'Name'];
+export const Headers = ['ID',  'ItemType', 'price', 'quanity', 'Name'];
 export const DefaultData = [{
 	id: 'no data'
 }];
@@ -10,6 +10,7 @@ export const Data = [
 		price: '49.99',
 		qty: '12',
 		name: 'football',
+
 	},
 	{
 		id: 2,
@@ -47,4 +48,11 @@ export const Data = [
 		qty: '23',
 		name: 'nexus 7',
 	},
+  {
+    id: 7,
+    category: 'Food',
+    price: '1.9',
+    qty: '23',
+    name: 'aples',
+  },
 ];

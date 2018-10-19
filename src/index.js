@@ -1,13 +1,14 @@
 import React, { Component, Fragment } from 'react';
 
 import styled from 'styled-components';
-
-
-export const DefaultHeaders = ['ID',  'category', 'price', 'qty', 'Name'];
-export const Headers = ['ID`s',  'category', 'price', 'qty', 'Name'];
-export const DefaultData = [{
-  id: 'no data'
-}];
+import PropTypes from 'prop-types'
+export const DefaultHeaders = ['ID', 'category', 'price', 'qty', 'Name'];
+export const Headers = ['ID`s', 'category', 'price', 'qty', 'Name'];
+export const DefaultData = [
+  {
+    id: 'no data',
+  },
+];
 export const Data = [
   {
     id: 1,
@@ -15,6 +16,8 @@ export const Data = [
     price: '49.99',
     qty: '12',
     name: 'football',
+
+
   },
   {
     id: 2,
@@ -28,8 +31,7 @@ export const Data = [
     category: 'Sporting Goods',
     price: '29.99',
     qty: '14',
-    name: 'basketball'
-
+    name: 'basketball',
   },
   {
     id: 4,
@@ -53,7 +55,6 @@ export const Data = [
     name: 'nexus 7',
   },
 ];
-
 
 export function getItemTemplate(dataArray) {
   let itemTemplate = {};
@@ -79,6 +80,12 @@ const Header = styled.th`
 `;
 
 export class DrawRow extends React.Component {
+  static propTypes = {
+    row: PropTypes.object,
+    handleRowDelEvent: PropTypes.func,
+    handleCellDataChangeEvent: PropTypes.func,
+    BgColor: PropTypes.string
+  };
   handleRowDelEvent = () => {
     this.props.handleRowDelEvent(this.props.row);
   };
@@ -123,6 +130,16 @@ border-style: solid;
 `;
 
 export class DrawInput extends React.Component {
+  static propTypes = {
+
+
+    handleCellDataChangeEvent: PropTypes.func,
+    BgColor: PropTypes.string,
+    id: PropTypes.number,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    value: PropTypes.any
+  };
   handleInputEvent = event => {
     this.props.handleCellDataChangeEvent(event);
   };
@@ -136,7 +153,7 @@ export class DrawInput extends React.Component {
         name={name}
         value={value}
         onChange={this.handleInputEvent}
-        // readOnly={name === 'id'? "readonly" : null }
+
         disabled={name === 'id' ? 'readonly' : null}
         BgColor={name === 'id' ? '#AFCDE7' : BgColor}
         idWidth={name === 'id' ? '60px' : 'unset'}
@@ -147,16 +164,29 @@ export class DrawInput extends React.Component {
 }
 
 export class DrawHeaders extends React.Component {
+  static propTypes = {
+
+
+    headers: PropTypes.array
+
+  };
   render() {
     const Headers = this.props.headers ? this.props.headers : DefaultHeaders;
-    const headersList = Headers.map((name, index) => (
-      <Header key={index}>{name}</Header>
-    ));
-    return headersList;
+
+    return Headers.map((name, index) => <Header key={index}>{name}</Header>);
   }
 }
 
 export class DrawCell extends React.Component {
+  static propTypes = {
+
+
+    handleCellDataChangeEvent: PropTypes.func,
+    BgColor: PropTypes.string,
+    id: PropTypes.number,
+    name: PropTypes.string,
+    value: PropTypes.any
+  };
   render() {
     const { handleCellDataChangeEvent, id, name, value, BgColor } = this.props;
     return (
@@ -200,7 +230,7 @@ const TableHead = styled.thead`
 `;
 export class DrawButton extends React.Component {
   render() {
-    const SaveButton = styled.button`
+    const Button = styled.button`
       display: inline-block;
       font-size: 100%;
       font-weight: 700;
@@ -210,7 +240,7 @@ export class DrawButton extends React.Component {
       text-decoration: none;
       user-select: none;
       padding: 5px;
-
+      
       background: #053852
         repeating-linear-gradient(
           135deg,
@@ -225,11 +255,24 @@ export class DrawButton extends React.Component {
 
     const { onClick, value } = this.props;
 
-    return <SaveButton onClick={onClick}>{value}</SaveButton>;
+    return <Button onClick={onClick}>{value}</Button>;
   }
 }
 
 class ItemsTable extends Component {
+  static propTypes = {
+
+
+    addRowEvent: PropTypes.func,
+    delRowEvent: PropTypes.func,
+    saveEvent: PropTypes.func,
+    BgColor: PropTypes.string,
+    data: PropTypes.array,
+    headers: PropTypes.array
+
+  };
+
+
   constructor(props) {
     super(props);
 
@@ -257,8 +300,8 @@ class ItemsTable extends Component {
   };
 
   handleRowDelEvent(item) {
-    if (!this.state.touched && this.props.delEvent) {
-      this.props.delEvent(item);
+    if (!this.state.touched && this.props.delRowEvent) {
+      this.props.delRowEvent(item);
     } else if (!this.state.touched) {
       const index = this.state.data.indexOf(item);
 

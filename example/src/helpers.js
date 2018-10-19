@@ -1,4 +1,4 @@
-import {Data} from "./config";
+
 
 
 export function getItemTemplate(dataArray) {

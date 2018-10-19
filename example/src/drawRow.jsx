@@ -14,7 +14,7 @@ export default class DrawRow extends React.Component {
 	};
 	render() {
 		const row = this.props.row;
-		const BgColor = this.props.BgColor
+		const BgColor = this.props.BgColor;
 
 		return (
 			<Fragment>
