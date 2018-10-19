@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # npm-pb-items-table
 
 > tiny but smart table
@@ -29,3 +30,6 @@ class Example extends Component {
 ## License
 
 MIT © [dmitry-skrypka](https://github.com/dmitry-skrypka)
+=======
+# npm-items-table
+>>>>>>> 70e40bc83697a58f0bbbb852319be66bf698a805
