@@ -4,7 +4,7 @@
   "description": "tiny but smart table",
   "author": "dmitry-skrypka",
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/dmitry-skrypka/npm-items-table.git",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
